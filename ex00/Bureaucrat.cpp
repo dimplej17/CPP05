@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Bureaucrat.cpp                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: djanardh <djanardh@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dimplejanardhan <dimplejanardhan@studen    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/10 02:25:50 by dimplejanar       #+#    #+#             */
-/*   Updated: 2026/03/23 14:53:45 by djanardh         ###   ########.fr       */
+/*   Updated: 2026/03/23 23:52:44 by dimplejanar      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,14 +17,21 @@ Bureaucrat::Bureaucrat() : _name("default")
 	_grade = 0;
 }
 
+// read: https://www.mygreatlearning.com/blog/exception-handling-in-cpp/ 
+
 Bureaucrat::Bureaucrat(const Bureaucrat& real)
 {
-	
-	
+	this->_name = real.getName();
+	this->_grade = real.getGrade();
 }
 Bureaucrat& Bureaucrat::operator=(const Bureaucrat& real)
 {
-	
+	if (*this != real)
+	{
+		this->_name = real.getName();
+		this->_grade = real.getGrade();
+	}
+	return (*this);
 }
 
 Bureaucrat::~Bureaucrat() {}

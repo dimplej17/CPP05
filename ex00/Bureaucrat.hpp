@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Bureaucrat.hpp                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: djanardh <djanardh@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dimplejanardhan <dimplejanardhan@studen    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/10 02:26:01 by dimplejanar       #+#    #+#             */
-/*   Updated: 2026/03/23 14:52:20 by djanardh         ###   ########.fr       */
+/*   Updated: 2026/03/23 23:46:24 by dimplejanar      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ class Bureaucrat
 	Bureaucrat(const Bureaucrat& real); // copy constructor
 	Bureaucrat& operator=(const Bureaucrat& real); // copy assignment opereator
 	~Bureaucrat(); // destructor
-	Bureaucrat(std::string name, int grade);
+	Bureaucrat(std::string name, int grade); // parameterised constructor
 
 	std::string getName() const;
 	int getGrade() const;
