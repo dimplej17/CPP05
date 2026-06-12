@@ -6,7 +6,7 @@
 /*   By: dimplejanardhan <dimplejanardhan@studen    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/10 02:26:01 by dimplejanar       #+#    #+#             */
-/*   Updated: 2026/06/12 20:26:11 by dimplejanar      ###   ########.fr       */
+/*   Updated: 2026/06/12 21:35:37 by dimplejanar      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,14 +29,26 @@ class Bureaucrat
 	Bureaucrat(const Bureaucrat& real); // copy constructor
 	Bureaucrat& operator=(const Bureaucrat& real); // copy assignment opereator
 	~Bureaucrat(); // destructor
+
+	class GradeTooHighException : public std::exception
+	{
+		public:
+		const char* what() const throw();
+	};
+
+	class GradeTooLowException : public std::exception
+	{
+		public:
+		const char* what() const throw();
+	};
 	
 	Bureaucrat(std::string name, int grade); // parameterised constructor
 
 	std::string getName() const;
 	int getGrade() const;
 	
-	void increment(); // first throw/check for exception if grade goes out of range	
-	void decrement(); // first throw/check for exception if grade goes out of range	
+	void increment(); // should these 2 functions take values for incrementaion/decrementation? or is it understood that it should +/- only by 1?
+	void decrement();
 	
 };
 

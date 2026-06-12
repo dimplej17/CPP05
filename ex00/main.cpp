@@ -6,7 +6,7 @@
 /*   By: dimplejanardhan <dimplejanardhan@studen    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/10 02:25:40 by dimplejanar       #+#    #+#             */
-/*   Updated: 2026/06/12 20:34:29 by dimplejanar      ###   ########.fr       */
+/*   Updated: 2026/06/12 21:46:52 by dimplejanar      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,17 +19,26 @@ int main (void)
 		Bureaucrat a;
 		std::cout << a << std::endl;
 	}
-	catch {
-		
+	catch(std::exception& e) {
+		std::cout << e.what() << std::endl;
 	}
 
 	// check parameterised constructor
 	try {
-		Bureaucrat b("Bob", 3);
+		Bureaucrat b("Boo", 160); // put 0, 160, empty name?, no value for grade? (ideally "default" name and '0' grade should be added)
 		std::cout << b << std::endl;
 	}
-	catch {
-		
+	catch(std::exception& e) {
+		std::cout << e.what() << std::endl;
+	}
+	
+	// check parameterised constructor
+	try {
+		Bureaucrat b("Bob", 3); // put empty name?, no value for grade? (ideally "default" name and '0' grade should be added)
+		std::cout << b << std::endl;
+	}
+	catch(std::exception& e) {
+		std::cout << e.what() << std::endl;
 	}
 	
 }

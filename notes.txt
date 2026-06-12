@@ -1,1 +1,65 @@
 Very nice: https://www.mygreatlearning.com/blog/exception-handling-in-cpp/ 
+
+
+Why catch(std::exception& e) works
+Because:
+GradeTooLowException inherits from: std::exception
+So:
+catch (std::exception& e)
+can catch:
+	GradeTooLowException
+	GradeTooHighException
+	std::runtime_error
+	std::logic_error
+	...
+and then call: e.what()
+polymorphically.
+
+
+Where does e come from?
+When you do: throw GradeTooLowException();
+you're creating an exception object.
+Then later: catch (std::exception& e) receives that object.
+Conceptually: throw GradeTooLowException();
+↓
+catch (std::exception& e)
+Now: e
+refers to the GradeTooLowException object that was thrown.
+
+
+What is e.what()?
+what() is just a member function.
+Exactly like: dog.bark(); or bureaucrat.getGrade(); or e.what();
+The exception object has a member function called what().
+Calling it returns an error message.
+Example:
+const char* Bureaucrat::GradeTooLowException::what() const throw()
+{
+    return "grade too low";
+}
+Then:
+e.what()
+returns: grade too low
+
+
+What is what() exactly?
+The standard exception class already defines a virtual function:
+class exception
+{
+public:
+    virtual const char* what() const throw();
+};
+Your exception overrides it.
+Example:
+class GradeTooLowException : public std::exception
+{
+public:
+    const char* what() const throw();
+};
+Implementation:
+const char* GradeTooLowException::what() const throw()
+{
+    return "grade too low";
+}
+Now whenever someone calls: e.what()
+they get: grade too low
