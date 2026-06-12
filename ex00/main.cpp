@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: djanardh <djanardh@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dimplejanardhan <dimplejanardhan@studen    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/10 02:25:40 by dimplejanar       #+#    #+#             */
-/*   Updated: 2026/03/23 14:54:38 by djanardh         ###   ########.fr       */
+/*   Updated: 2026/06/12 20:34:29 by dimplejanar      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,21 @@
 int main (void)
 {
 	// check default constructor
-	Bureaucrat a;
-	std::cout << a << std::endl;
+	try {
+		Bureaucrat a;
+		std::cout << a << std::endl;
+	}
+	catch {
+		
+	}
 
 	// check parameterised constructor
-	Bureaucrat b("Bob", 3);
-	std::cout << b << std::endl;
+	try {
+		Bureaucrat b("Bob", 3);
+		std::cout << b << std::endl;
+	}
+	catch {
+		
+	}
 	
 }

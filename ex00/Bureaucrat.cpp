@@ -6,7 +6,7 @@
 /*   By: dimplejanardhan <dimplejanardhan@studen    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/10 02:25:50 by dimplejanar       #+#    #+#             */
-/*   Updated: 2026/03/23 23:52:44 by dimplejanar      ###   ########.fr       */
+/*   Updated: 2026/06/12 20:28:08 by dimplejanar      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,6 @@ Bureaucrat::Bureaucrat() : _name("default")
 {
 	_grade = 0;
 }
-
-// read: https://www.mygreatlearning.com/blog/exception-handling-in-cpp/ 
 
 Bureaucrat::Bureaucrat(const Bureaucrat& real)
 {
@@ -39,8 +37,13 @@ Bureaucrat::~Bureaucrat() {}
 Bureaucrat::Bureaucrat(std::string name, int grade) : _name (name)
 {
 	_grade = grade;
+	
+	if (grade < 1)
+		throw Bureaucrat::GradeTooHighException();
+	
+	if (grade > 150)
+		throw Bureaucrat::GradeTooLowException();
 }
-
 
 std::string Bureaucrat::getName(void) const
 {
@@ -55,16 +58,40 @@ int Bureaucrat::getGrade(void) const
 void Bureaucrat::increment()
 {
 	// first check and call exception if outside range
+	if (grade < 1)
+		throw Bureaucrat::GradeTooHighException();
+	
+	if (grade > 150)
+		throw Bureaucrat::GradeTooLowException();
+		
 	_grade--;
+	
 	// throw exception if incremented grade is out of range?
+	if (grade < 1)
+		throw Bureaucrat::GradeTooHighException();
+	
+	if (grade > 150)
+		throw Bureaucrat::GradeTooLowException();
 
 }
 
 void Bureaucrat::decrement()
 {
 	// first check and call exception if outside range
+	if (grade < 1)
+		throw Bureaucrat::GradeTooHighException();
+	
+	if (grade > 150)
+		throw Bureaucrat::GradeTooLowException();
+		
 	_grade++;
+	
 	// throw exception if decremented grade is out of range?
+	if (grade < 1)
+		throw Bureaucrat::GradeTooHighException();
+	
+	if (grade > 150)
+		throw Bureaucrat::GradeTooLowException();
 }
 
 

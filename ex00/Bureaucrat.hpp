@@ -6,7 +6,7 @@
 /*   By: dimplejanardhan <dimplejanardhan@studen    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/10 02:26:01 by dimplejanar       #+#    #+#             */
-/*   Updated: 2026/03/23 23:46:24 by dimplejanar      ###   ########.fr       */
+/*   Updated: 2026/06/12 20:26:11 by dimplejanar      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 #include <iostream>
 #include <string>
+#include <stdexcept>
 
 class Bureaucrat
 {
@@ -23,10 +24,12 @@ class Bureaucrat
 	int _grade;
 
 	public:
+	// Orthodox Canonical Form
 	Bureaucrat(); // default constructor
 	Bureaucrat(const Bureaucrat& real); // copy constructor
 	Bureaucrat& operator=(const Bureaucrat& real); // copy assignment opereator
 	~Bureaucrat(); // destructor
+	
 	Bureaucrat(std::string name, int grade); // parameterised constructor
 
 	std::string getName() const;
