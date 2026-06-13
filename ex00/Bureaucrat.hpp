@@ -6,7 +6,7 @@
 /*   By: dimplejanardhan <dimplejanardhan@studen    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/10 02:26:01 by dimplejanar       #+#    #+#             */
-/*   Updated: 2026/06/12 21:35:37 by dimplejanar      ###   ########.fr       */
+/*   Updated: 2026/06/13 18:36:55 by dimplejanar      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 #include <iostream>
 #include <string>
-#include <stdexcept>
+#include <exception>
 
 class Bureaucrat
 {
@@ -47,7 +47,7 @@ class Bureaucrat
 	std::string getName() const;
 	int getGrade() const;
 	
-	void increment(); // should these 2 functions take values for incrementaion/decrementation? or is it understood that it should +/- only by 1?
+	void increment();
 	void decrement();
 	
 };
