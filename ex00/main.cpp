@@ -6,7 +6,7 @@
 /*   By: dimplejanardhan <dimplejanardhan@studen    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/10 02:25:40 by dimplejanar       #+#    #+#             */
-/*   Updated: 2026/06/12 21:46:52 by dimplejanar      ###   ########.fr       */
+/*   Updated: 2026/06/13 17:58:14 by dimplejanar      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,19 +23,27 @@ int main (void)
 		std::cout << e.what() << std::endl;
 	}
 
-	// check parameterised constructor
+	// check parameterised constructor - incorrect
 	try {
-		Bureaucrat b("Boo", 160); // put 0, 160, empty name?, no value for grade? (ideally "default" name and '0' grade should be added)
+		Bureaucrat b("Bob", 0);
 		std::cout << b << std::endl;
 	}
 	catch(std::exception& e) {
 		std::cout << e.what() << std::endl;
 	}
 	
-	// check parameterised constructor
+	// check parameterised constructor, increment, decrement
 	try {
-		Bureaucrat b("Bob", 3); // put empty name?, no value for grade? (ideally "default" name and '0' grade should be added)
+		Bureaucrat b("Bob", 3);
 		std::cout << b << std::endl;
+		b.increment();
+		std::cout << b << std::endl;
+		Bureaucrat c("Cod", 149);
+		std::cout << c << std::endl;
+		c.decrement();
+		std::cout << c << std::endl;
+		c.decrement();
+		std::cout << c << std::endl;
 	}
 	catch(std::exception& e) {
 		std::cout << e.what() << std::endl;

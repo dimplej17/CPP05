@@ -63,3 +63,10 @@ const char* GradeTooLowException::what() const throw()
 }
 Now whenever someone calls: e.what()
 they get: grade too low
+
+
+Exception can also be cerr:
+catch (const std::exception &e)
+	{
+		std::cerr << e.what() << std::endl;
+	}
