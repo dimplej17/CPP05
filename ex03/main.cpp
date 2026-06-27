@@ -6,7 +6,7 @@
 /*   By: djanardh <djanardh@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/10 02:25:40 by dimplejanar       #+#    #+#             */
-/*   Updated: 2026/06/27 18:35:50 by djanardh         ###   ########.fr       */
+/*   Updated: 2026/06/27 19:37:17 by djanardh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,62 +15,36 @@
 #include "ShrubberyCreationForm.hpp"
 #include "RobotomyRequestForm.hpp"
 #include "PresidentialPardonForm.hpp"
+#include "Intern.hpp"
 
 int main (void)
 {
-	// random seed generator for RobotomyRequestForm
 	srand(time(NULL));
-
-	// try {
-	// 	AForm a;
-	// 	std::cout << a << std::endl;
-		
-	// }
-	// catch(std::exception& e) {
-	// 	std::cout << e.what() << std::endl;
-	// }
 	
 	try {
-		Bureaucrat bob("Bob", 2);
-		std::cout << bob << std::endl;
-		ShrubberyCreationForm scf;
-		std::cout << scf << std::endl;
-		bob.executeForm(scf);
-	
-		std::cout << std::endl;
-
-		bob.signAForm(scf);
-		bob.executeForm(scf);
+		Intern internA;
+		AForm* rrf = internA.makeForm("robotomy request", "Bender");
+		delete rrf;
 
 		std::cout << std::endl;
 
-		Bureaucrat cat("Cat", 2);
-		ShrubberyCreationForm home("home");
-		cat.signAForm(home);
-		cat.executeForm(home);
-		std::cout << home << std::endl;
+		Intern internB;
+		AForm* scf = internB.makeForm("shrubbery creation", "home");
+		delete scf;
 
 		std::cout << std::endl;
-		
-		Bureaucrat tom("Tom", 150);
-		tom.executeForm(scf);
+
+		Intern internC;
+		AForm* ppf = internC.makeForm("presidential pardon", "jfk");
+		delete ppf;
+
+		std::cout << std::endl;
+
+		Intern internD;
+		AForm* huh = internD.makeForm("huh", "??");	
+		delete huh;
 		
 		std::cout << std::endl;
-		
-		RobotomyRequestForm rrf("stone");
-		bob.signAForm(rrf);
-		bob.executeForm(rrf);
-		tom.executeForm(rrf);
-		
-		std::cout << std::endl;
-
-		PresidentialPardonForm ppf("jkf");
-		bob.signAForm(ppf);
-		bob.executeForm(ppf);
-		tom.executeForm(ppf);
-
-		std::cout << std::endl;
-		
 	}
 	catch(std::exception& e) {
 		std::cout << e.what() << std::endl;
