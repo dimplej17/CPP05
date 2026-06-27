@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dimplejanardhan <dimplejanardhan@studen    +#+  +:+       +#+        */
+/*   By: djanardh <djanardh@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/10 02:25:40 by dimplejanar       #+#    #+#             */
-/*   Updated: 2026/06/13 19:20:57 by dimplejanar      ###   ########.fr       */
+/*   Updated: 2026/06/27 13:09:01 by djanardh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 

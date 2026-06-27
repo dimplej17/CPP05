@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Form.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dimplejanardhan <dimplejanardhan@studen    +#+  +:+       +#+        */
+/*   By: djanardh <djanardh@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/10 02:29:04 by dimplejanar       #+#    #+#             */
-/*   Updated: 2026/06/13 19:31:38 by dimplejanar      ###   ########.fr       */
+/*   Updated: 2026/06/27 13:52:47 by djanardh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,9 +27,7 @@ Form::Form(const Form& real) : _name(real.getName()), _grade_sign(real.getGradeS
 Form& Form::operator=(const Form& real)
 {
 	if (this != &real)
-	{
 		this->_signed = real.getSigned();
-	}
 	std::cout << "Form Copy Assignmnet Operator called" << std::endl;
 	return (*this);
 }
@@ -83,9 +81,7 @@ Form::Form(std::string name, int grade_sign, int grade_exec) : _name(name), _gra
 void Form::beSigned(Bureaucrat& obj)
 {
 	if (obj.getGrade() > _grade_sign)
-	{
 		throw Form::GradeTooLowException();
-	}
 	else
 	{
 		_signed = true;

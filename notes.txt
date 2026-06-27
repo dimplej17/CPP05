@@ -1,4 +1,5 @@
 Very nice: https://www.mygreatlearning.com/blog/exception-handling-in-cpp/ 
+https://cppreference.com/cpp/error/exception 
 
 
 Why catch(std::exception& e) works
@@ -70,3 +71,383 @@ catch (const std::exception &e)
 	{
 		std::cerr << e.what() << std::endl;
 	}
+
+
+An abstract class is a class that cannot be instantiated directly.
+class AForm
+{
+public:
+    virtual void execute() const = 0;
+};
+The = 0 makes execute() a pure virtual function!!!!!!!!!!
+Now this is illegal:
+AForm form; // ERROR, because AForm is abstract.
+But this is fine:
+class ShrubberyCreationForm : public AForm
+{
+public:
+    void execute() const
+    {
+        // implementation
+    }
+};
+ShrubberyCreationForm form("home");
+The idea is: AForm defines what every form must have. Derived classes provide the actual behavior.
+
+
+class ShrubberyCreationForm : public AForm - this makes the ShrubberyCreationForm a derived class right? but in hte subject it referes to it as a concrete class?
+-- Exactly! A class can be both a derived class and a concrete class. Those terms describe different things.
+* Derived class = inherits from another class.
+* Concrete class = can be instantiated (it's not abstract).
+
+
+Why does AForm(real) work? (in the context of copy constructor of Shrubbery)
+Suppose AForm has:
+class AForm
+{
+private:
+    std::string _name;
+    bool _signed;
+    int _signGrade;
+    int _execGrade;
+};
+When you write
+: AForm(other)
+you're calling AForm's copy constructor.
+That constructor is responsible for copying all of AForm's members.
+So if AForm has
+AForm::AForm(const AForm& other)
+    : _name(other._name),
+      _signed(other._signed),
+      _signGrade(other._signGrade),
+      _execGrade(other._execGrade)
+{
+}
+then everything gets copied automatically.
+You don't need to copy _name, _signed, etc. again in ShrubberyCreationForm.
+
+
+If _target is home
+then 	"std::ofstream file((_target + "_shrubbery").c_str());"
+creates home_shrubbery in the current working directory.
+If the file doesn't exist, it gets created.
+If it already exists, it gets overwritten.
+
+
+Why (_target + "_shrubbery").c_str()?
+_target + "_shrubbery" creates a std::string.
+In C++98 (which the 42 modules use), std::ofstream expects a C-style string (const char*), so you convert it with .c_str().
+
+
+
+What does .is_open() actually do?
+file.is_open()
+It checks whether the file stream is successfully connected to a real file.
+So after:
+std::ofstream file("home_shrubbery");
+If the file was created/opened correctly → is_open() == true
+If something failed (permissions, invalid path, disk issue, etc.) → is_open() == false
+Important detail: It only tells you:
+“Is this stream currently associated with a file?”
+It does NOT tell you why it failed.
+
+When does it fail?
+Typical reasons:
+No permission to write in directory
+Invalid filename
+Disk full
+Read-only filesystem
+Path issue
+
+
+seeding rand()
+If you don’t seed randomness somewhere in your program:
+srand(time(NULL));
+then rand() will produce the same sequence every run.
+Usually placed once in main().
+Without this, your robotomy will feel “not random”.
+
+
+What srand(time(NULL)) means == “Initialize randomness using the current time as a starting point”.
+time(NULL) Returns the current time in seconds since 1970 (Unix epoch).
+Example:
+1760000000
+This number changes every second.
+srand(...)
+Sets the seed for the random number generator.
+Think of it like:
+“Start random sequence from this point”
+
+
+## 1. `rand()` does NOT “choose a number from a sequence”
+It **generates the next number in the sequence**.
+So every time you call:
+```cpp
+rand()
+```
+you get:
+> the next value in a deterministic sequence
+Example:
+```text
+seed = 10
+rand() -> 48271
+rand() -> 89321
+rand() -> 12094
+```
+No “picking”, no randomness selection — just “next step”.
+---
+## 2. What does `% 2` do then?
+This part:
+```cpp
+rand() % 2
+```
+means:
+> take the number returned by `rand()` and reduce it to either 0 or 1
+Because:
+* even number → `% 2 == 0`
+* odd number → `% 2 == 1`
+So you're not selecting from the sequence — you're transforming one value.
+---
+## 3. So what actually happens in your code?
+```cpp
+if (rand() % 2 == 0)
+```
+Step-by-step:
+1. `rand()` produces next number in sequence
+2. that number might be like `48271`
+3. you compute `48271 % 2`
+4. result is `1` or `0`
+5. you branch based on that
+---
+## 4. Important correction to your idea
+You said:
+> “1 number from that sequence is chosen for %2==0”
+Better way to say it:
+> “one number is generated from the sequence, then reduced to 0 or 1 using modulo”
+There is **no selection step**, only:
+* generation (`rand()`)
+* transformation (`% 2`)
+---
+## 5. Why this gives ~50% chance
+Because roughly:
+* half of all integers are even
+* half are odd
+So `rand() % 2` gives:
+* ~50% chance of 0
+* ~50% chance of 1
+---
+## 6. Final mental model (important)
+```text
+srand()  -> sets starting point of sequence
+rand()   -> gives next number in sequence
+% 2      -> compresses number into 0 or 1
+```
+---
+If you want, I can also show you why `rand() % 2` is slightly imperfect randomness and what professionals use instead (`<random>` with `std::uniform_int_distribution`).
+
+
+
+A **deterministic sequence** just means:
+> A sequence of values that is completely predictable if you know the starting point.
+No randomness is actually happening inside `rand()`.
+---
+## 1. What “deterministic” means in simple terms
+If something is deterministic:
+* same input → same output every time
+* no hidden randomness
+So for `rand()`:
+> same seed → same sequence of numbers
+---
+## 2. How `rand()` actually works
+Internally, C uses a **pseudo-random number generator (PRNG)**.
+It’s basically a formula like:
+```text id="k1m3pv"
+next = (a * current + b) % m
+```
+So:
+* start with a seed (from `srand()`)
+* apply a mathematical formula
+* get next number
+* repeat
+---
+## 3. Example of deterministic sequence
+If you do:
+```cpp id="f8n3qk"
+srand(10);
+```
+Then `rand()` might produce:
+```text id="p3x9aa"
+48271
+89321
+12094
+55512
+...
+```
+Every single run with seed `10` gives EXACT same sequence.
+---
+## 4. Why this matters
+If it were truly random:
+* you could never reproduce results
+But in computing we often want:
+* reproducibility (debugging, simulations, games)
+So we use deterministic systems that *look random*.
+---
+## 5. Why it feels random anyway
+Because:
+* numbers are huge
+* pattern is hard to notice
+* without knowing the formula + seed, it looks unpredictable
+But mathematically, it's fully predictable.
+---
+## 6. Simple analogy (no fluff)
+Deterministic sequence =
+> a machine that starts from a number and follows strict rules to produce the next numbers
+No chance involved.
+---
+## 7. Key takeaway
+* `rand()` is NOT truly random
+* it is a **formula-based sequence generator**
+* “randomness” comes from not knowing the seed + complexity of pattern
+---
+If you want, I can show you a tiny fake `rand()` implementation in C++ so you can literally see how the sequence is generated step by step.
+
+
+whats the difference between just putting "class AForm;" in the header bureacrat file vs "#include "AForm.hpp"?
+---
+# 1. `AForm::execute()` vs `Bureaucrat::executeForm()`
+
+## 🔵 `AForm::execute(Bureaucrat const & executor)`
+This belongs to the **form itself**.
+### Its job:
+> “Can this form be executed by this bureaucrat, and if yes, do the form’s action”
+So inside `AForm::execute()` you do:
+1. Check if signed
+2. Check bureaucrat grade
+3. If OK → run the *real action* (robotomy, file creation, pardon)
+### Example idea:
+```cpp id="aform_exec"
+void AForm::execute(Bureaucrat const & executor) const
+{
+    if (!_signed)
+        throw FormNotSignedException();
+
+    if (executor.getGrade() > _execGrade)
+        throw GradeTooLowException();
+
+    executeAction(); // polymorphic call
+}
+```
+So:
+👉 `AForm::execute()` = validation + dispatch
+---
+## 🟢 `Bureaucrat::executeForm(AForm const & form)`
+This belongs to the **bureaucrat**.
+### Its job:
+> “Try to execute a form and report success/failure”
+So it does NOT implement form logic.
+It just calls:
+```cpp id="bureaucrat_execform"
+form.execute(*this);
+```
+and handles the result.
+---
+## 🔥 So what is the difference?
+| Function                    | Owned by   | Responsibility                   |
+| --------------------------- | ---------- | -------------------------------- |
+| `AForm::execute()`          | Form       | Checks + performs action         |
+| `Bureaucrat::executeForm()` | Bureaucrat | Tries to execute + prints result |
+---
+## 2. How does `executeForm` know if it succeeded?
+By **exceptions**.
+### Flow:
+```text id="flow1"
+Bureaucrat calls executeForm()
+        ↓
+calls form.execute(*this)
+        ↓
+AForm::execute() either:
+   - succeeds → returns normally
+   - fails → throws exception
+```
+---
+### So `executeForm()` looks like this:
+```cpp id="execform"
+void Bureaucrat::executeForm(AForm const & form) const
+{
+    try
+    {
+        form.execute(*this);
+        std::cout << _name << " executed " << form.getName() << std::endl;
+    }
+    catch (std::exception & e)
+    {
+        std::cout << _name << " couldn’t execute " << form.getName()
+                  << " because " << e.what() << std::endl;
+    }
+}
+```
+---
+## 3. Important insight
+### `executeForm()` does NOT repeat checks
+❌ wrong:
+```cpp
+if (form.isSigned() && grade ok)
+```
+✔ correct:
+```cpp
+form.execute(*this); // delegate everything
+```
+Because:
+> the form already knows how to validate itself
+---
+# 4. `class AForm;` vs `#include "AForm.hpp"`
+This is **very important in CPP modules**.
+---
+## 🔵 `class AForm;` (forward declaration)
+This means:
+> “AForm exists, trust me, I’ll define it later”
+You can only use it when:
+* you only use **pointers or references**
+Example:
+```cpp id="forward_ok"
+class AForm;
+class Bureaucrat
+{
+    void executeForm(AForm const & form);
+};
+```
+✔ OK because it's a reference
+---
+## ❌ But you CANNOT do:
+```cpp
+AForm form; // ERROR (incomplete type)
+```
+because compiler needs full size of the class.
+---
+## 🟢 `#include "AForm.hpp"`
+This means:
+> “Give me full definition of AForm”
+You need this when:
+* you access members
+* you call methods
+* you instantiate objects
+Example:
+```cpp id="include_needed"
+form.execute(*this);
+```
+You must include header in `.cpp`.
+---
+## 5. Rule of thumb (very important)
+### In `.hpp` files:
+* use `class AForm;` when possible (forward declare)
+* avoid circular includes
+### In `.cpp` files:
+* always `#include "AForm.hpp"`
+---
+# 6. Mental model (this is the key)
+### `AForm::execute()`
+> “Can I run this form? If yes, run it.”
+### `Bureaucrat::executeForm()`
+> “I try to run this form and report what happened.”
+---
+If you want, I can draw you the exact call chain (step-by-step runtime flow), which makes this click instantly for most students.

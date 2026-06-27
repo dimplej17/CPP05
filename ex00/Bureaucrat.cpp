@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Bureaucrat.cpp                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dimplejanardhan <dimplejanardhan@studen    +#+  +:+       +#+        */
+/*   By: djanardh <djanardh@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/10 02:25:50 by dimplejanar       #+#    #+#             */
-/*   Updated: 2026/06/13 17:56:27 by dimplejanar      ###   ########.fr       */
+/*   Updated: 2026/06/27 13:54:34 by djanardh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,9 +27,7 @@ Bureaucrat::Bureaucrat(const Bureaucrat& real) : _name(real.getName())
 Bureaucrat& Bureaucrat::operator=(const Bureaucrat& real)
 {
 	if (this != &real)
-	{
 		this->_grade = real.getGrade();
-	}
 	std::cout << "Bureaucrat Copy Assignmnet Operator called" << std::endl;
 	return (*this);
 }
