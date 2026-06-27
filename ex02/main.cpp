@@ -3,48 +3,71 @@
 /*                                                        :::      ::::::::   */
 /*   main.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dimplejanardhan <dimplejanardhan@studen    +#+  +:+       +#+        */
+/*   By: djanardh <djanardh@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/10 02:25:40 by dimplejanar       #+#    #+#             */
-/*   Updated: 2026/06/13 19:45:39 by dimplejanar      ###   ########.fr       */
+/*   Updated: 2026/06/27 18:28:35 by djanardh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Bureaucrat.hpp"
-#include "Form.hpp"
-
-// should a check for if a form is already signed or not be put? To avoid forms getting signed >1 ?
+#include "AForm.hpp"
+#include "ShrubberyCreationForm.hpp"
+#include "RobotomyRequestForm.hpp"
+#include "PresidentialPardonForm.hpp"
 
 int main (void)
 {
-	// check default constructor and incorrect parameterised constructor
-	try {
-		Form a;
-		std::cout << a << std::endl;
-		Form b("BirthForm", 0, 40);
-		std::cout << b << std::endl;
-	}
-	catch(std::exception& e) {
-		std::cout << e.what() << std::endl;
-	}
+	// random seed generator for RobotomyRequestForm
+	srand(time(NULL));
+
+	// try {
+	// 	AForm a;
+	// 	std::cout << a << std::endl;
+		
+	// }
+	// catch(std::exception& e) {
+	// 	std::cout << e.what() << std::endl;
+	// }
 	
-	// check parameterised constructor, signing
 	try {
 		Bureaucrat bob("Bob", 2);
 		std::cout << bob << std::endl;
-		Form c("SchoolForm", 3, 4);
-		std::cout << c << std::endl;
-		bob.signForm(c);
-		// c.beSigned(bob);
-		std::cout << c << std::endl;
-		Form d("UniForm", 149, 45);
-		std::cout << d << std::endl;
-		d.beSigned(bob);
-		std::cout << d << std::endl;
-		Form e("BruhForm", 1, 1);
-		std::cout << e << std::endl;
-		e.beSigned(bob);
-		std::cout << e << std::endl;
+		ShrubberyCreationForm scf;
+		std::cout << scf << std::endl;
+		bob.signAForm(scf);
+		bob.executeForm(scf);
+		std::cout << scf << std::endl;
+	
+		std::cout << std::endl;
+
+		Bureaucrat cat("Cat", 2);
+		ShrubberyCreationForm home("home");
+		cat.signAForm(home);
+		cat.executeForm(home);
+		std::cout << home << std::endl;
+
+		std::cout << std::endl;
+		
+		Bureaucrat tom("Tom", 150);
+		tom.executeForm(scf);
+		
+		std::cout << std::endl;
+		
+		RobotomyRequestForm rrf("stone");
+		bob.signAForm(rrf);
+		bob.executeForm(rrf);
+		tom.executeForm(rrf);
+		
+		std::cout << std::endl;
+
+		PresidentialPardonForm ppf("jkf");
+		bob.signAForm(ppf);
+		bob.executeForm(ppf);
+		tom.executeForm(ppf);
+
+		std::cout << std::endl;
+		
 	}
 	catch(std::exception& e) {
 		std::cout << e.what() << std::endl;

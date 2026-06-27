@@ -1,17 +1,17 @@
 /* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   Bureaucrat.cpp                                     :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: dimplejanardhan <dimplejanardhan@studen    +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/01/10 02:25:50 by dimplejanar       #+#    #+#             */
-/*   Updated: 2026/06/13 19:29:23 by dimplejanar      ###   ########.fr       */
-/*                                                                            */
+/*																			*/
+/*														:::	  ::::::::   */
+/*   Bureaucrat.cpp									 :+:	  :+:	:+:   */
+/*													+:+ +:+		 +:+	 */
+/*   By: djanardh <djanardh@student.42heilbronn.	+#+  +:+	   +#+		*/
+/*												+#+#+#+#+#+   +#+		   */
+/*   Created: 2026/06/27 13:09:43 by djanardh		  #+#	#+#			 */
+/*   Updated: 2026/06/27 17:06:39 by djanardh		 ###   ########.fr	   */
+/*																			*/
 /* ************************************************************************** */
 
 #include "Bureaucrat.hpp"
-#include "Form.hpp"
+#include "AForm.hpp"
 
 Bureaucrat::Bureaucrat() : _name("default")
 {
@@ -114,7 +114,7 @@ void Bureaucrat::decrement()
 	std::cout << "Grade successfully decremented" << std::endl;
 }
 
-void Bureaucrat::signForm(Form& form)
+void Bureaucrat::signAForm(AForm& form)
 {
 	form.beSigned(*this);
 	if (_grade > form.getGradeSign())
@@ -123,6 +123,19 @@ void Bureaucrat::signForm(Form& form)
 	}
 	else
 		std::cout << this->getName() << " signed " << form.getName() << std::endl;
+}
+
+void Bureaucrat::executeForm(AForm const & form) const
+{
+	try
+	{
+		form.execute(*this);
+		std::cout << this->getName() << " executed " << form.getName() << std::endl;
+	}
+	catch (std::exception & e)
+	{
+		std::cout << this->getName() << " could not execute " << form.getName() << " due to " << e.what() << std::endl;
+	}
 }
 
 std::ostream& operator<<(std::ostream& os, const Bureaucrat& obj)

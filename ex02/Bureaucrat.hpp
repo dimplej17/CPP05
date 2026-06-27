@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Bureaucrat.hpp                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dimplejanardhan <dimplejanardhan@studen    +#+  +:+       +#+        */
+/*   By: djanardh <djanardh@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/10 02:26:01 by dimplejanar       #+#    #+#             */
-/*   Updated: 2026/06/13 19:01:11 by dimplejanar      ###   ########.fr       */
+/*   Updated: 2026/06/27 17:04:15 by djanardh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 #include <string>
 #include <exception>
 
-class Form;
+class AForm;
 
 class Bureaucrat
 {
@@ -52,7 +52,8 @@ class Bureaucrat
 	void increment();
 	void decrement();
 
-	void signForm(Form& form);
+	void signAForm(AForm& form);
+	void executeForm(AForm const & form) const;
 };
 
 std::ostream& operator<<(std::ostream& os, const Bureaucrat& obj);
